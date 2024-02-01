@@ -1,0 +1,115 @@
+---
+title: "Escolas com Ensino Médio em Porto Velho e Cuiabá"
+Subtitle: Utilizado pacote geobr 
+author: "Michele Caramigo"
+format: html
+editor: visual
+embed-resources: true
+date: "02/01/2024"
+---
+
+## Visualização
+
+Para visualização das escolas do ensino médio nos municípios Porto Velho e Cuiabá foi utilizado o pacote geobr para identificar a quantidade de escolas que esses municipios possuem.
+
+## Código utilizado
+
+O pacote geobr foi carregado e atraves da função list_geobr, identificamos o comando para as escolas, read_schools.
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+library(tidyverse)
+library(geobr)
+geobr::list_geobr()
+dados_geobr<-list_geobr()
+escolas<-read_schools()
+```
+
+A função read_schools foi executada e resultado carregado no objeto "escolas".
+
+Apos obter o conteúdo das escolas, foi utilizado filtro por municipio, Porto Velho e Cuiabá.
+
+E como o objetivo é a visualização das escolas que possuem ensino médio nesses municípios o comando seguinte e para fazer a busca das escolas com Ensino Médio.
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+escolasPV <- escolas %>% 
+  filter(name_muni == "Porto Velho")  
+
+ensino_medio_porto_velho <- escolasPV |>
+  dplyr::filter(stringr::str_detect(education_level, "Ensino Médio")) |>
+  dplyr::group_by(government_level) |> 
+  dplyr::mutate(
+    numero_linhas = dplyr::n(),
+    nome_label = paste0(government_level, " (N=", numero_linhas, ")")
+  ) |> 
+  dplyr::ungroup()
+
+```
+
+Primeiramente em Porto Velho e abaixo em Cuiabá.
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+escolasCB <- escolas %>% 
+  filter(name_muni == "Cuiabá")
+
+ensino_medio_cuiaba <- escolasCB |>
+  dplyr::filter(stringr::str_detect(education_level, "Ensino Médio")) |>
+  dplyr::group_by(government_level) |> 
+  dplyr::mutate(
+    numero_linhas = dplyr::n(),
+    nome_label = paste0(government_level, " (N=", numero_linhas, ")")
+  ) |> 
+  dplyr::ungroup()
+
+```
+
+Por último apresentamos a visualização gráfica a cada município, Porto Velho e Cuiabá com as escolas que tem Ensino Médio por classificação da escola: Pública(Estadual ou Federal) ou Privada e número de matrículas.
+
+```         
+```
+
+Município: Porto Velho
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+ensino_medio_porto_velho |>
+  ggplot() +
+  aes(x = government_level, y = size) +
+  geom_point(aes(color = government_level)) +
+  theme_minimal(12) +
+  labs(
+    title = "Escolas de Ensino Médio em Porto Velho",
+    caption = "Fonte: INEP, pacote de dados geobr",
+    x = "Classificação da escola: Pública(Estadual ou Federal) ou Privada",
+    y = "No. de Matrículas"
+  )
+```
+
+Município: Cuiabá
+
+```{r}
+#| warning: false
+#| message: false
+#| echo: false
+ensino_medio_cuiaba |>
+               ggplot() +
+               aes(x = government_level, y = size) +
+               geom_point(aes(color = government_level)) +
+               theme_minimal(12) +
+               labs(
+                 title = "Escolas de Ensino Médio em Cuiaba",
+                 caption = "Fonte: INEP, pacote de dados geobr",
+                 x = "Classificação da escola: Pública(Estadual ou Federal) ou Privada",
+                 y = "No. de Matrículas"
+               )
+```
