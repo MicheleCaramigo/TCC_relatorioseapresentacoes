@@ -8,13 +8,13 @@ embed-resources: true
 date: "02/01/2024"
 ---
 
-## Visualização
+## Objetivo 
 
-Para visualização das escolas do ensino médio nos municípios Porto Velho e Cuiabá foi utilizado o pacote geobr para identificar a quantidade de escolas que esses municipios possuem.
+Para identificar as escolas do ensino médio nos municípios Porto Velho e Cuiabá foi utilizado o pacote geobr para então visualizar as escolas por nível governamental (government_level) que esses municipios possuem.
 
 ## Código utilizado
 
-O pacote geobr foi carregado e atraves da função list_geobr, identificamos o comando para as escolas, read_schools.
+O pacote geobr foi carregado e através da função list_geobr,e identifica-se o comando para conhecer os dados sobre as escolas, read_schools.
 
 ```{r}
 #| warning: false
@@ -29,9 +29,9 @@ escolas<-read_schools()
 
 A função read_schools foi executada e resultado carregado no objeto "escolas".
 
-Apos obter o conteúdo das escolas, foi utilizado filtro por municipio, Porto Velho e Cuiabá.
+Após obter o conteúdo das escolas, foi utilizado filtro por municipio, Porto Velho e Cuiabá.
 
-E como o objetivo é a visualização das escolas que possuem ensino médio nesses municípios o comando seguinte e para fazer a busca das escolas com Ensino Médio.
+E como o objetivo é a visualização das escolas que possuem ensino médio nesses municípios o comando seguinte é para fazer a busca das escolas com Ensino Médio.
 
 ```{r}
 #| warning: false
@@ -113,3 +113,7 @@ ensino_medio_cuiaba |>
                  y = "No. de Matrículas"
                )
 ```
+
+## Conclusão
+
+Conseguimos visualizar a distribuição das escolas que possui ensino médio dos municípios estudados por nivel governamental(government_level).
